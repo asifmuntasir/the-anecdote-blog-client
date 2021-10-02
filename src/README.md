@@ -1,1 +1,0 @@
-It is the client side repository for a MERN Stack Blog project.
