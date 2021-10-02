@@ -1,0 +1,39 @@
+.navbar{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 8rem;
+    background: $white;
+    box-shadow: 0 .3rem 3rem rgba(0, 0, 0, .2);
+
+    &__row{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 8rem;
+    }
+
+    &__left{
+        font-size: 25px;
+        & a{
+            text-decoration: none;
+            color: $txtColor;
+        }
+    }
+
+    &__right{
+        display: flex;
+        & li{
+            list-style: none;
+            padding: 0px 10px;
+            font-size: 15px;
+            & a{
+                text-decoration: none;
+                color: $txtColor;
+                display: block;
+            }
+        }
+    }
+}
+
