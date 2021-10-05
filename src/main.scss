@@ -7,5 +7,11 @@
 @import "scss/utils/utils";
  
 // import scss components
-@import "scss/components/navbar" 
+@import "scss/components/navbar"; 
+@import "scss/components/bgImg";
+@import "scss/components/account";
+
+// import scss from layout
+@import "scss/layout/grid";
+
 

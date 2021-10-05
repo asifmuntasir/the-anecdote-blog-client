@@ -2,3 +2,51 @@
     width: 1200px;
     margin: 0 auto;
 }
+
+.mt-80{
+    margin-top: 8rem;
+}
+
+.group{
+    margin-bottom: 1.3rem;
+    &__control{
+        width: 100%;
+        padding: 1.5rem;
+        border: none;
+        outline: none;
+        background: $silver;
+        border-bottom: 2px solid transparent;
+        transition: all 0.5s;
+        &:focus{
+            border-bottom-color: $green;
+        }
+    }
+}
+
+.btn{
+    text-decoration: none;
+    border: none;
+    outline: none;
+    color: $white;
+    height: 4rem;
+    padding: 1.2rem 1rem;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 1.4rem;
+    cursor: pointer;
+}
+
+.btn-default{
+    background: $green;
+}
+
+.btn-block{
+    width: 100%;
+    height: 5rem !important;
+}
+
+.form-heading{
+    font-size: 2.5rem;
+    font-weight: 500px;
+    text-align: center;
+}
