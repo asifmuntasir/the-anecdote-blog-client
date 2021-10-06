@@ -1,10 +1,17 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 
 const Home = () => {
     return (
-        <div>
-            <h1 style={{marginTop: '100px'}}>This is the Home page!</h1>
-        </div>
+        <>
+            <Helmet>
+                <title>The Anecdote</title>
+                <meta 
+                    name='description'
+                    content='MERN Stack Blog'
+                />
+            </Helmet>
+        </>
     );
 };
 

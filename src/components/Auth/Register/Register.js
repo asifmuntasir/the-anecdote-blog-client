@@ -1,9 +1,17 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import BgImage from '../BgImage';
 
 const Register = () => {
     return (
         <>
+             <Helmet>
+                <title>Register</title>
+                <meta 
+                    name='description'
+                    content='User Register Form'
+                />
+            </Helmet>
             <div className="row mt-80">
                 <div className="col-8">
                     <BgImage />
