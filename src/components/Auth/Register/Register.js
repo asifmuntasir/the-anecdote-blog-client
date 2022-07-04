@@ -1,16 +1,41 @@
-import React from 'react';
+import { React, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import BgImage from '../BgImage';
+import { useDispatch } from 'react-redux';
+import { postRegister } from '../../../store/asyncMethods/AuthMethods';
 
 const Register = () => {
+
+    const [state, setState] = useState({
+        name: '',
+        email: '',
+        password: '',
+    });
+
+    const dispatch = useDispatch();
+
+    const handleInputs = (e) => {
+        setState({
+            ...state,
+            [e.target.name]: e.target.value,
+        })
+    }
+
+    const userRegister = async (e) => {
+        e.preventDefault();
+        console.log(state);
+        dispatch(postRegister(state));
+    }
+
     return (
         <>
-             <Helmet>
+            <Helmet>
                 <title>Register</title>
-                <meta 
+                <meta
                     name='description'
                     content='User Register Form'
                 />
+                <link rel="shortcut icon" href="./icons8-blog-48.png" />
             </Helmet>
             <div className="row mt-80">
                 <div className="col-8">
@@ -19,36 +44,46 @@ const Register = () => {
                 <div className="col-4">
                     <div className="account">
                         <div className="account_-section">
-                            <form>
+                            <form onSubmit={userRegister}>
                                 <div className="group">
                                     <h2 className="form-heading">Register</h2>
                                 </div>
                                 <div className="group">
                                     <input
                                         type="text"
-                                        name=""
+                                        name="name"
                                         className="group__control"
-                                        placeholder="Enter Name" />
+                                        placeholder="Enter Name"
+                                        value={state.name}
+                                        onChange={handleInputs}
+                                    />
                                 </div>
                                 <div className="group">
                                     <input
                                         type="email"
-                                        name=""
+                                        name="email"
                                         className="group__control"
-                                        placeholder="Enter Email" />
+                                        placeholder="Enter Email"
+                                        value={state.email}
+                                        onChange={handleInputs}
+                                    />
                                 </div>
                                 <div className="group">
                                     <input
                                         type="password"
-                                        name=""
+                                        name="password"
                                         className="group__control"
-                                        placeholder="Create Password" />
+                                        placeholder="Create Password"
+                                        value={state.password}
+                                        onChange={handleInputs}
+                                    />
                                 </div>
                                 <div className="group">
                                     <input
                                         type="submit"
                                         className="btn btn-default btn-block"
-                                        value="Register" />
+                                        value="Register"
+                                    />
                                 </div>
                             </form>
                         </div>

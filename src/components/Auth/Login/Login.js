@@ -11,6 +11,7 @@ const Login = () => {
                     name='description'
                     content='User Login Form'
                 />
+                <link rel="shortcut icon" href="./icons8-blog-48.png"/>
             </Helmet>
             <div className="row mt-80">
                 <div className="col-8">

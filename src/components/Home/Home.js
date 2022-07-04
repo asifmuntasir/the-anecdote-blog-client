@@ -10,6 +10,7 @@ const Home = () => {
                     name='description'
                     content='MERN Stack Blog'
                 />
+                <link rel="shortcut icon" href="./home.png"/>
             </Helmet>
         </>
     );
