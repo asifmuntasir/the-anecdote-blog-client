@@ -11,6 +11,9 @@ import Login from "./components/Auth/Login/Login";
 import Register from "./components/Auth/Register/Register";
 import Navbar from "./components/Navbar/Navbar";
 import Store from "./store";
+import Dashboard from "./components/Dashboard/Dashboard";
+import PrivateRoute from "./privateRoute/PrivateRoute";
+import RouteLinks from "./privateRoute/RouteLinks";
 
 
 function App() {
@@ -19,9 +22,10 @@ function App() {
       <Router>
         <Navbar />
         <Switch>
-          <Route path="/" exact component={Home} />
-          <Route path="/login" exact component={Login} />
-          <Route path="/register" exact component={Register} />
+          <RouteLinks path="/" exact component={Home} />
+          <RouteLinks path="/login" exact component={Login} />
+          <RouteLinks path="/register" exact component={Register} />
+          <PrivateRoute path="/userDashboard" exact component={Dashboard} />
         </Switch>
       </Router>
     </Provider>

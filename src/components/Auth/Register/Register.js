@@ -1,16 +1,21 @@
 import { React, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import BgImage from '../BgImage';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { postRegister } from '../../../store/asyncMethods/AuthMethods';
+import toast, { Toaster } from 'react-hot-toast';
+import { useEffect } from 'react';
 
-const Register = () => {
+const Register = (props) => {
 
     const [state, setState] = useState({
         name: '',
         email: '',
         password: '',
     });
+
+    const { loading, registerErrors, user } = useSelector((state) => state.AuthReducer);
+
 
     const dispatch = useDispatch();
 
@@ -27,6 +32,19 @@ const Register = () => {
         dispatch(postRegister(state));
     }
 
+    useEffect(() => {
+        console.log('register', registerErrors);
+        if (registerErrors.length > 0) {
+            registerErrors.map((error) => {
+                return toast.error(error.msg)
+            });
+        }
+        // if (user) {
+        //     props.history.push('/userDashboard')
+        // }
+    }, [registerErrors, user])
+
+
     return (
         <>
             <Helmet>
@@ -40,6 +58,13 @@ const Register = () => {
             <div className="row mt-80">
                 <div className="col-8">
                     <BgImage />
+                    <Toaster
+                        toastOptions={{
+                            style: {
+                                fontSize: '15px'
+                            },
+                        }}
+                    />
                 </div>
                 <div className="col-4">
                     <div className="account">
@@ -82,7 +107,7 @@ const Register = () => {
                                     <input
                                         type="submit"
                                         className="btn btn-default btn-block"
-                                        value="Register"
+                                        value={loading ? '...' : 'Register'}
                                     />
                                 </div>
                             </form>
