@@ -14,6 +14,8 @@ import Store from "./store";
 import Dashboard from "./components/Dashboard/Dashboard";
 import PrivateRoute from "./privateRoute/PrivateRoute";
 import RouteLinks from "./privateRoute/RouteLinks";
+import NotFound from "./components/NotFound";
+import CreatePost from "./components/CreatePost/CreatePost";
 
 
 function App() {
@@ -22,10 +24,12 @@ function App() {
       <Router>
         <Navbar />
         <Switch>
-          <RouteLinks path="/" exact component={Home} />
+          <Route path="/" exact component={Home} />
           <RouteLinks path="/login" exact component={Login} />
           <RouteLinks path="/register" exact component={Register} />
           <PrivateRoute path="/userDashboard" exact component={Dashboard} />
+          <PrivateRoute path="/createPost" exact component={CreatePost} />
+          <Route component={NotFound} />
         </Switch>
       </Router>
     </Provider>

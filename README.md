@@ -3,7 +3,7 @@
 
 
 # ScreenShots
-![](pic.png)
+![](screenShot.png)
 
 ## Built With
 - HTML

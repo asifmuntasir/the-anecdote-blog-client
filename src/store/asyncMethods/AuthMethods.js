@@ -1,10 +1,13 @@
 import axios from 'axios';
 import {
     SET_LOADER,
-    CLOSE_LOADER, SET_TOKEN,
-    REGISTER_ERRORS
+    CLOSE_LOADER,
+    SET_TOKEN,
+    REGISTER_ERRORS,
+    LOGIN_ERRORS
 } from '../types/UserTypes';
 
+// User Register Method
 export const postRegister = (state) => {
     return async (dispatch) => {
         const config = {
@@ -31,6 +34,34 @@ export const postRegister = (state) => {
                 payload: error.response.data.errors,
             })
             console.log(error.response)
+        }
+    }
+}
+
+
+
+// User Login Method
+export const postLogin = (state) => {
+    return async (dispatch) => {
+        const config = {
+            Headers: {
+                'Content-Type': 'application/json',
+                'trustProtoHeader': true
+            }
+        }
+        try {
+            dispatch({ type: SET_LOADER });
+            const { data } = await axios.post(`http://localhost:4000/login`, state, config);
+            dispatch({ type: CLOSE_LOADER });
+            localStorage.setItem('userToken', data.token);
+            dispatch({ type: SET_TOKEN, payload: data.token });
+        } catch (error) {
+            dispatch({ type: CLOSE_LOADER });
+            dispatch({
+                type: LOGIN_ERRORS,
+                payload: error.response.data.errors,
+            });
+            console.log(error.response);
         }
     }
 }
