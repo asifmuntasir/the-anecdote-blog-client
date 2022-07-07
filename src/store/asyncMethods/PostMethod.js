@@ -2,8 +2,11 @@ import axios from "axios";
 import {
     CREATE_ERRORS,
     SET_LOADER,
-    CLOSE_LOADER
-
+    CLOSE_LOADER,
+    REDIRECT_TRUE,
+    REDIRECT_FALSE,
+    SET_MESSAGE,
+    REMOVE_MESSAGE
 } from '../types/PostTypes';
 
 const token = localStorage.getItem('userToken');
@@ -19,14 +22,21 @@ export const createAction = (postData) => {
                     Authorization: `Bearer ${token}`,
                 }
             }
-            const { data } = await axios.post(`http://localhost:4000/create_post`, postData, config);
+            const { data, msg } = await axios.post(`http://localhost:4000/create_post`, postData, config);
             dispatch({
                 type: CLOSE_LOADER
             });
             console.log(data);
+            dispatch({
+                type: REDIRECT_TRUE
+            });
+            dispatch({
+                type: SET_MESSAGE,
+                payload: msg
+            })
         } catch (error) {
+            console.log(error.response);
             const { errors } = error.response.data;
-            console.log(errors);
             dispatch({
                 type: CLOSE_LOADER
             });

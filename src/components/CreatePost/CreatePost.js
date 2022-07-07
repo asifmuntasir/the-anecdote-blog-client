@@ -1,10 +1,11 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { createAction } from '../../store/asyncMethods/PostMethod';
+import toast, { Toaster } from 'react-hot-toast';
 
 
 
@@ -20,6 +21,16 @@ const CreatePost = () => {
     const { user: { _id, name } } = useSelector(state => state.AuthReducer);
     // const {_id, name} = user;
     // console.log(_id, name);
+
+    const { createErrors } = useSelector(state => state.PostReducer);
+    useEffect(() => {
+        console.log('postError', createErrors);
+        if (createErrors.length > 0) {
+            createErrors.map((error) => {
+                return toast.error(error.msg)
+            });
+        }
+    }, [createErrors])
 
     const [currentImage, setCurrentImage] = useState('Choose Image');
 
@@ -43,18 +54,20 @@ const CreatePost = () => {
 
     const fileHandle = (e) => {
         // console.log(e.target.files[0].name);
-        setCurrentImage(e.target.files[0].name);
+        if (e.target.files[0].name) {
+            setCurrentImage(e.target.files[0].name);
 
-        setState({
-            ...state,
-            [e.target.name]: e.target.files[0]
-        })
+            setState({
+                ...state,
+                [e.target.name]: e.target.files[0]
+            })
 
-        const fileReader = new FileReader()
-        fileReader.onloadend = () => {
-            setImagePreivew(fileReader.result)
+            const fileReader = new FileReader()
+            fileReader.onloadend = () => {
+                setImagePreivew(fileReader.result)
+            }
+            fileReader.readAsDataURL(e.target.files[0]);
         }
-        fileReader.readAsDataURL(e.target.files[0]);
     }
 
     const handleSlug = (e) => {
@@ -104,6 +117,13 @@ const CreatePost = () => {
                 />
                 <link rel="shortcut icon" href="./edit.png" />
             </Helmet>
+            <Toaster
+                toastOptions={{
+                    style: {
+                        fontSize: '15px'
+                    },
+                }}
+            />
             <div className="container mt-100">
                 <form onSubmit={createPost}>
                     <div className="row ml-minus-15 mr-minus-15">
