@@ -1,6 +1,7 @@
 import axios from "axios";
 import {
     CREATE_ERRORS,
+    REMOVE_ERRORS,
     SET_LOADER,
     CLOSE_LOADER,
     REDIRECT_TRUE,
@@ -9,10 +10,13 @@ import {
     REMOVE_MESSAGE
 } from '../types/PostTypes';
 
-const token = localStorage.getItem('userToken');
+// const token = localStorage.getItem('userToken');
 
 export const createAction = (postData) => {
-    return async (dispatch) => {
+    return async (dispatch, getState) => {
+        const { AuthReducer: { token } } = getState();
+        // console.log('Your State: ', token);
+
         dispatch({
             type: SET_LOADER
         });
@@ -22,11 +26,14 @@ export const createAction = (postData) => {
                     Authorization: `Bearer ${token}`,
                 }
             }
-            const { data, msg } = await axios.post(`http://localhost:4000/create_post`, postData, config);
+            const { data: { msg } } = await axios.post(`http://localhost:4000/create_post`, postData, config);
             dispatch({
                 type: CLOSE_LOADER
             });
-            console.log(data);
+            // console.log(data);
+            dispatch({
+                type: REMOVE_ERRORS
+            })
             dispatch({
                 type: REDIRECT_TRUE
             });

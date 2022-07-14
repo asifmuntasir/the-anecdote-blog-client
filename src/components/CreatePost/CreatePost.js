@@ -9,7 +9,7 @@ import toast, { Toaster } from 'react-hot-toast';
 
 
 
-const CreatePost = () => {
+const CreatePost = (props) => {
 
     const [state, setState] = useState({
         title: '',
@@ -22,15 +22,18 @@ const CreatePost = () => {
     // const {_id, name} = user;
     // console.log(_id, name);
 
-    const { createErrors } = useSelector(state => state.PostReducer);
+    const { createErrors, redirect } = useSelector(state => state.PostReducer);
     useEffect(() => {
         console.log('postError', createErrors);
-        if (createErrors.length > 0) {
+        if (redirect) {
+            props.history.push('/userDashboard');
+        }
+        if (createErrors.length !== 0) {
             createErrors.map((error) => {
                 return toast.error(error.msg)
             });
         }
-    }, [createErrors])
+    }, [createErrors, redirect])
 
     const [currentImage, setCurrentImage] = useState('Choose Image');
 
@@ -54,7 +57,7 @@ const CreatePost = () => {
 
     const fileHandle = (e) => {
         // console.log(e.target.files[0].name);
-        if (e.target.files[0].name) {
+        if (e.target.files.length !== 0) {
             setCurrentImage(e.target.files[0].name);
 
             setState({
