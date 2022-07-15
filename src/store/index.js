@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware, combineReducers } from "redux";
 import thunkMiddleware from "redux-thunk";
 import AuthReducer from "./reducers/AuthReducer";
-import PostReducer from "./reducers/PostReducer";
+import { PostReducer, FetchPosts } from "./reducers/PostReducer";
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 const rootReducers = combineReducers({
@@ -9,6 +9,7 @@ const rootReducers = combineReducers({
     // key and value same here, So we can write this like as given below
     AuthReducer,
     PostReducer,
+    FetchPosts
 });
 
 const middlewares = [thunkMiddleware];
