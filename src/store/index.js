@@ -3,6 +3,7 @@ import thunkMiddleware from "redux-thunk";
 import AuthReducer from "./reducers/AuthReducer";
 import { PostReducer, FetchPosts } from "./reducers/PostReducer";
 import { composeWithDevTools } from 'redux-devtools-extension';
+import 'remixicon/fonts/remixicon.css'
 
 const rootReducers = combineReducers({
     // AuthReducer: AuthReducer,

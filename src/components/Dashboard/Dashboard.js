@@ -6,6 +6,8 @@ import { REDIRECT_FALSE, REMOVE_MESSAGE } from '../../store/types/PostTypes';
 import toast, { Toaster } from 'react-hot-toast';
 import { fetchPosts } from '../../store/asyncMethods/PostMethod';
 import { Link } from 'react-router-dom';
+import Loader from '../Loader';
+import SideBar from '../SideBar/SideBar';
 
 const Dashboard = () => {
 
@@ -49,18 +51,22 @@ const Dashboard = () => {
             />
             <div>
                 <div className="container mt-100">
-                    <div className="row">
-                        <div className="col-3">
-                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tenetur repellat esse recusandae alias magni adipisci expedita natus rem, consequatur non, suscipit impedit aliquam ut praesentium ipsa facere at sequi qui sunt voluptatibus ullam temporibus deserunt iste! Vel perferendis similique fugiat.
+                    <div className="row ml-minus-15 mr-minus-15">
+                        <div className="col-3 p-15">
+                            <SideBar />
                         </div>
-                        <div className="col-9">
+                        <div className="col-9 p-15">
                             {!loading ? posts.length > 0 ? posts.map((post) => (
                                 <div className="dashboard__post" key={post._id}>
                                     <div className="dashboard__post__title">
                                         <Link to='/'>{post.title}</Link>
                                     </div>
+                                    <div className="dashboard__post__links">
+                                        <Link to='/'><i class="ri-file-edit-fill icon"></i></Link>
+                                        <i class="ri-delete-bin-5-line icon"></i>
+                                    </div>
                                 </div>
-                            )) : 'You dont have any post' : 'loading...'}
+                            )) : 'You dont have any post' : <Loader />}
                         </div>
                     </div>
                 </div>
