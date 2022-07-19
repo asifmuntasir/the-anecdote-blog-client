@@ -5,15 +5,17 @@ import { useSelector, useDispatch } from 'react-redux';
 import { REDIRECT_FALSE, REMOVE_MESSAGE } from '../../store/types/PostTypes';
 import toast, { Toaster } from 'react-hot-toast';
 import { fetchPosts } from '../../store/asyncMethods/PostMethod';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Loader from '../Loader';
 import SideBar from '../SideBar/SideBar';
+import Pagination from '../Pagination';
 
 const Dashboard = () => {
 
     const { redirect, message, loading } = useSelector((state) => state.PostReducer);
     const { user: { _id } } = useSelector(state => state.AuthReducer);
-    const { posts } = useSelector(state => state.FetchPosts)
+    const { posts, count, perPage } = useSelector(state => state.FetchPosts)
+    const { page } = useParams();
 
     console.log('My Posts: ', posts);
 
@@ -67,6 +69,7 @@ const Dashboard = () => {
                                     </div>
                                 </div>
                             )) : 'You dont have any post' : <Loader />}
+                            <Pagination page={page} perPage={perPage} count={count} />
                         </div>
                     </div>
                 </div>

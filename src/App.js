@@ -27,7 +27,7 @@ function App() {
           <Route path="/" exact component={Home} />
           <RouteLinks path="/login" exact component={Login} />
           <RouteLinks path="/register" exact component={Register} />
-          <PrivateRoute path="/userDashboard" exact component={Dashboard} />
+          <PrivateRoute path="/userDashboard/:page?" exact component={Dashboard} />
           <PrivateRoute path="/createPost" exact component={CreatePost} />
           <Route component={NotFound} />
         </Switch>

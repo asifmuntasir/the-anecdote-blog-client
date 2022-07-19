@@ -71,14 +71,17 @@ export const fetchPosts = (id) => {
                     Authorization: `Bearer ${token}`,
                 }
             }
-            const { data: { response } } = await axios.get(`http://localhost:4000/posts/${id}`, config);
+            const {
+                data: { response, count, perPage }
+            } = await axios.get(`http://localhost:4000/posts/${id}`, config);
+
             dispatch({
                 type: CLOSE_LOADER
             });
             // console.log(response);
             dispatch({
                 type: SET_POSTS,
-                payload: response
+                payload: { response, count, perPage }
             })
         } catch (error) {
             dispatch({
