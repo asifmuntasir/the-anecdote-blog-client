@@ -16,16 +16,38 @@ const Pagination = ({ count, page, perPage }) => {
     const links = () => {
         const store = [];
         for (let i = startLoop; i <= endLoop; i++) {
-            store.push(<li>
+            store.push(<li className={i == page ? 'active' : ''}>
                 <Link to={`/dashboard/${i}`}>{i}</Link>
             </li>)
         }
         return store;
     }
 
+    const next = () => {
+        if (page < totalPages) {
+            return (<li>
+                <Link to={`/dashboard/${parseInt(page) + 1}`}>
+                    <i class="ri-arrow-right-s-line"></i>
+                </Link>
+            </li>)
+        }
+    }
+
+    const previous = () => {
+        if (page > 1) {
+            return (<li>
+                <Link to={`/dashboard/${parseInt(page) - 1}`}>
+                    <i class="ri-arrow-left-s-line"></i>
+                </Link>
+            </li>)
+        }
+    }
+
     return (
         <div className="pagination">
+            {previous()}
             {links()}
+            {next()}
         </div>
     );
 };
