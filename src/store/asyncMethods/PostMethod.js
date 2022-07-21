@@ -57,7 +57,7 @@ export const createAction = (postData) => {
     }
 }
 
-export const fetchPosts = (id) => {
+export const fetchPosts = (id, page) => {
     return async (dispatch, getState) => {
         const { AuthReducer: { token } } = getState();
 
@@ -73,7 +73,7 @@ export const fetchPosts = (id) => {
             }
             const {
                 data: { response, count, perPage }
-            } = await axios.get(`http://localhost:4000/posts/${id}`, config);
+            } = await axios.get(`http://localhost:4000/posts/${id}/${page}`, config);
 
             dispatch({
                 type: CLOSE_LOADER

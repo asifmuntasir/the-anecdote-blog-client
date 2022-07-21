@@ -15,9 +15,13 @@ const Dashboard = () => {
     const { redirect, message, loading } = useSelector((state) => state.PostReducer);
     const { user: { _id } } = useSelector(state => state.AuthReducer);
     const { posts, count, perPage } = useSelector(state => state.FetchPosts)
-    const { page } = useParams();
+    let { page } = useParams();
 
-    console.log('My Posts: ', posts);
+    // console.log('My Posts: ', posts);
+
+    if (page === undefined) {
+        page = 1;
+    }
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -32,8 +36,8 @@ const Dashboard = () => {
                 type: REMOVE_MESSAGE
             })
         }
-        dispatch(fetchPosts(_id));
-    }, [])
+        dispatch(fetchPosts(_id, page));
+    }, [page])
     return (
         <>
             <Helmet>
