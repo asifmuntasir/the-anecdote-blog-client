@@ -16,6 +16,7 @@ import PrivateRoute from "./privateRoute/PrivateRoute";
 import RouteLinks from "./privateRoute/RouteLinks";
 import NotFound from "./components/NotFound";
 import CreatePost from "./components/CreatePost/CreatePost";
+import EditPost from "./components/EditPost/EditPost";
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
           <RouteLinks path="/register" exact component={Register} />
           <PrivateRoute path="/userDashboard/:page?" exact component={Dashboard} />
           <PrivateRoute path="/createPost" exact component={CreatePost} />
+          <PrivateRoute path="/editPost/:id" exact component={EditPost} />
           <Route component={NotFound} />
         </Switch>
       </Router>
