@@ -3,7 +3,10 @@ import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router-dom';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchPost } from '../../store/asyncMethods/PostMethod';
+import { POST_RESET } from '../../store/types/PostTypes';
 
 const EditPost = () => {
 
@@ -15,6 +18,25 @@ const EditPost = () => {
         title: '',
         description: ''
     })
+
+    const dispatch = useDispatch();
+    const { loading } = useSelector(state => state.PostReducer);
+    const { post, postStatus } = useSelector(state => state.FetchPost);
+
+    useEffect(() => {
+        if (postStatus) {
+            setState({
+                title: post.title,
+                description: post.description
+            });
+            setValue(post.body);
+            dispatch({
+                type: POST_RESET
+            })
+        } else {
+            dispatch(fetchPost(id));
+        }
+    }, [post])
 
     return (
         <>
@@ -41,7 +63,7 @@ const EditPost = () => {
                                             id='title'
                                             className='group__control'
                                             placeholder='Post Title'
-                                            value={state.value}
+                                            value={state.title}
                                             onChange={(e) => setState({
                                                 ...state, title: e.target.value
                                             })}
@@ -64,7 +86,7 @@ const EditPost = () => {
                                         <textarea
                                             name="description"
                                             id="description"
-                                            defaultValue={state.description}
+                                            value={state.description}
                                             onChange={(e) => setState({
                                                 ...state, description: e.target.value
                                             })}

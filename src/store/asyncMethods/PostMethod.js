@@ -8,7 +8,10 @@ import {
     REDIRECT_FALSE,
     SET_MESSAGE,
     REMOVE_MESSAGE,
-    SET_POSTS
+    SET_POSTS,
+    SET_POST,
+    POST_REQUEST,
+    POST_RESET
 } from '../types/PostTypes';
 
 // const token = localStorage.getItem('userToken');
@@ -87,6 +90,42 @@ export const fetchPosts = (id, page) => {
             dispatch({
                 type: CLOSE_LOADER
             })
+        }
+    }
+}
+
+export const fetchPost = (id) => {
+    return async (dispatch, getState) => {
+        const {
+            AuthReducer: { token },
+        } = getState;
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        }
+        dispatch({
+            type: SET_LOADER
+        });
+
+        try {
+            const { data: { post } } = await axios.get(`http://localhost:4000/post/${id}`, config);
+            dispatch({
+                type: CLOSE_LOADER
+            });
+            dispatch({
+                type: SET_POST,
+                payload: post
+            });
+            dispatch({
+                type: POST_REQUEST
+            });
+        } catch (error) {
+            dispatch({
+                type: CLOSE_LOADER
+            });
+            console.log(error.message)
         }
     }
 }

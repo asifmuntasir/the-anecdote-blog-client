@@ -16,8 +16,8 @@ const Pagination = ({ count, page, perPage }) => {
     const links = () => {
         const store = [];
         for (let i = startLoop; i <= endLoop; i++) {
-            store.push(<li className={i == page ? 'active' : ''}>
-                <Link to={`/dashboard/${i}`}>{i}</Link>
+            store.push(<li key={i} className={i === page ? 'active' : ''}>
+                <Link to={`/userDashboard/${i}`}>{i}</Link>
             </li>)
         }
         return store;
@@ -26,7 +26,7 @@ const Pagination = ({ count, page, perPage }) => {
     const next = () => {
         if (page < totalPages) {
             return (<li>
-                <Link to={`/dashboard/${parseInt(page) + 1}`}>
+                <Link to={`/userDashboard/${parseInt(page) + 1}`}>
                     <i class="ri-arrow-right-s-line"></i>
                 </Link>
             </li>)
@@ -36,7 +36,7 @@ const Pagination = ({ count, page, perPage }) => {
     const previous = () => {
         if (page > 1) {
             return (<li>
-                <Link to={`/dashboard/${parseInt(page) - 1}`}>
+                <Link to={`/userDashboard/${parseInt(page) - 1}`}>
                     <i class="ri-arrow-left-s-line"></i>
                 </Link>
             </li>)
