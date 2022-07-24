@@ -118,7 +118,7 @@ const CreatePost = (props) => {
                     name='description'
                     content='Create a post by user'
                 />
-                <link rel="shortcut icon" href="./edit.png" />
+                <link rel="shortcut icon" href="./create_post.png" />
             </Helmet>
             <Toaster
                 toastOptions={{

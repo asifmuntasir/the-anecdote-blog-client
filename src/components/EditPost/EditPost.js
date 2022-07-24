@@ -86,7 +86,7 @@ const EditPost = () => {
                                         <textarea
                                             name="description"
                                             id="description"
-                                            value={state.description}
+                                            defaultValue={state.description}
                                             onChange={(e) => setState({
                                                 ...state, description: e.target.value
                                             })}

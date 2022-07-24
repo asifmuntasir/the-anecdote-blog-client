@@ -10,7 +10,7 @@ import Loader from '../Loader';
 import SideBar from '../SideBar/SideBar';
 import Pagination from '../Pagination';
 
-const Dashboard = () => {
+const UserDashboard = () => {
 
     const { redirect, message, loading } = useSelector((state) => state.PostReducer);
     const { user: { _id } } = useSelector(state => state.AuthReducer);
@@ -41,12 +41,12 @@ const Dashboard = () => {
     return (
         <>
             <Helmet>
-                <title>Dashboard</title>
+                <title>User Dashboard</title>
                 <meta
                     name='description'
                     content='User Dashboard'
                 />
-                <link rel="shortcut icon" href="./dashboard.png" />
+                <link rel="shortcut icon" href="./user_dashboard.png" />
             </Helmet>
             <Toaster
                 toastOptions={{
@@ -82,4 +82,4 @@ const Dashboard = () => {
     );
 };
 
-export default Dashboard;
+export default UserDashboard;

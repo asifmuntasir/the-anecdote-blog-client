@@ -98,7 +98,7 @@ export const fetchPost = (id) => {
     return async (dispatch, getState) => {
         const {
             AuthReducer: { token },
-        } = getState;
+        } = getState();
 
         const config = {
             headers: {
