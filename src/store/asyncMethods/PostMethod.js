@@ -11,7 +11,9 @@ import {
     SET_POSTS,
     SET_POST,
     POST_REQUEST,
-    POST_RESET
+    POST_RESET,
+    SET_UPDATE_ERRORS,
+    RESET_UPDATE_ERRORS
 } from '../types/PostTypes';
 
 // const token = localStorage.getItem('userToken');
@@ -126,6 +128,46 @@ export const fetchPost = (id) => {
                 type: CLOSE_LOADER
             });
             console.log(error.message)
+        }
+    }
+}
+
+
+export const updateAction = (editData) => {
+    return async (dispatch, getState) => {
+        const {
+            AuthReducer: { token },
+        } = getState();
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        }
+
+        dispatch({
+            type: SET_LOADER
+        });
+
+        try {
+            const { data } = await axios.post(`http://localhost:4000/update_post`, editData, config);
+            dispatch({
+                type: CLOSE_LOADER
+            });
+        } catch (error) {
+            const {
+                response: {
+                    data: { errors },
+                }
+            } = error;
+            dispatch({
+                type: CLOSE_LOADER
+            });
+            dispatch({
+                type: SET_UPDATE_ERRORS,
+                payload: errors
+            })
+            console.log(error.response)
         }
     }
 }

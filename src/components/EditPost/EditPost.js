@@ -5,8 +5,9 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchPost } from '../../store/asyncMethods/PostMethod';
-import { POST_RESET } from '../../store/types/PostTypes';
+import { fetchPost, updateAction } from '../../store/asyncMethods/PostMethod';
+import { POST_RESET, RESET_UPDATE_ERRORS } from '../../store/types/PostTypes';
+import toast, { Toaster } from 'react-hot-toast';
 
 const EditPost = () => {
 
@@ -22,7 +23,7 @@ const EditPost = () => {
     const dispatch = useDispatch();
     const { loading } = useSelector(state => state.PostReducer);
     const { post, postStatus } = useSelector(state => state.FetchPost);
-
+    const { editErrors } = useSelector(state => state.UpdatePost)
     useEffect(() => {
         if (postStatus) {
             setState({
@@ -36,7 +37,27 @@ const EditPost = () => {
         } else {
             dispatch(fetchPost(id));
         }
-    }, [post])
+    }, [post]);
+
+    const updatePost = (e) => {
+        e.preventDefault();
+        dispatch(updateAction({
+            title: state.title,
+            body: value,
+            description: state.description
+        }))
+    }
+
+    useEffect(() => {
+        if (editErrors.length !== 0) {
+            editErrors.map(error => {
+                return toast.error(error.msg);
+            });
+        }
+        dispatch({
+            type: RESET_UPDATE_ERRORS
+        });
+    }, [editErrors])
 
     return (
         <>
@@ -48,13 +69,20 @@ const EditPost = () => {
                 />
                 <link rel="shortcut icon" href="./edit.png" />
             </Helmet>
+            <Toaster
+                toastOptions={{
+                    style: {
+                        fontSize: '15px'
+                    },
+                }}
+            />
             <div className="mt-100">
                 <div className="container">
                     <div className="row">
                         <div className="col-6">
                             <div className="card">
                                 <h3 className="card__h3">Edit post</h3>
-                                <form>
+                                <form onSubmit={updatePost}>
                                     <div className="group">
                                         <label htmlFor="title">Post title</label>
                                         <input
@@ -88,6 +116,9 @@ const EditPost = () => {
                                             id="description"
                                             defaultValue={state.description}
                                             onChange={(e) => setState({
+                                                ...state, description: e.target.value
+                                            })}
+                                            onKeyUp={(e) => setState({
                                                 ...state, description: e.target.value
                                             })}
                                             cols="30"
