@@ -1,6 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useState, useEffect } from 'react';
@@ -8,8 +8,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchPost, updateAction } from '../../store/asyncMethods/PostMethod';
 import { POST_RESET, RESET_UPDATE_ERRORS } from '../../store/types/PostTypes';
 import toast, { Toaster } from 'react-hot-toast';
+import Loader from '../Loader';
 
 const EditPost = () => {
+
+    const { push } = useHistory();
 
     const { id } = useParams();
 
@@ -21,7 +24,7 @@ const EditPost = () => {
     })
 
     const dispatch = useDispatch();
-    const { loading } = useSelector(state => state.PostReducer);
+    const { loading, redirect } = useSelector(state => state.PostReducer);
     const { post, postStatus } = useSelector(state => state.FetchPost);
     const { editErrors } = useSelector(state => state.UpdatePost)
     useEffect(() => {
@@ -44,7 +47,8 @@ const EditPost = () => {
         dispatch(updateAction({
             title: state.title,
             body: value,
-            description: state.description
+            description: state.description,
+            id: post._id
         }))
     }
 
@@ -53,11 +57,17 @@ const EditPost = () => {
             editErrors.map(error => {
                 return toast.error(error.msg);
             });
+            dispatch({
+                type: RESET_UPDATE_ERRORS
+            });
         }
-        dispatch({
-            type: RESET_UPDATE_ERRORS
-        });
-    }, [editErrors])
+    }, [editErrors]);
+
+    useEffect(() => {
+        if (redirect) {
+            push('/userDashboard');
+        }
+    }, [redirect])
 
     return (
         <>
@@ -65,7 +75,7 @@ const EditPost = () => {
                 <title>Edit Post</title>
                 <meta
                     name='description'
-                    content='Update user psot'
+                    content='Update user post'
                 />
                 <link rel="shortcut icon" href="./edit.png" />
             </Helmet>
@@ -76,77 +86,83 @@ const EditPost = () => {
                     },
                 }}
             />
-            <div className="mt-100">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-6">
-                            <div className="card">
-                                <h3 className="card__h3">Edit post</h3>
-                                <form onSubmit={updatePost}>
-                                    <div className="group">
-                                        <label htmlFor="title">Post title</label>
-                                        <input
-                                            type="text"
-                                            name="title"
-                                            id='title'
-                                            className='group__control'
-                                            placeholder='Post Title'
-                                            value={state.title}
-                                            onChange={(e) => setState({
-                                                ...state, title: e.target.value
-                                            })}
-                                        />
+            {
+                !loading ? (
+                    <div className="mt-100">
+                        <div className="container">
+                            <div className="row">
+                                <div className="col-6">
+                                    <div className="card">
+                                        <h3 className="card__h3">Edit post</h3>
+                                        <form onSubmit={updatePost}>
+                                            <div className="group">
+                                                <label htmlFor="title">Post title</label>
+                                                <input
+                                                    type="text"
+                                                    name="title"
+                                                    id='title'
+                                                    className='group__control'
+                                                    placeholder='Post Title'
+                                                    value={state.title}
+                                                    onChange={(e) => setState({
+                                                        ...state, title: e.target.value
+                                                    })}
+                                                />
+                                            </div>
+                                            <div className="group">
+                                                <label htmlFor="body">Post body</label>
+                                                <ReactQuill
+                                                    theme="snow"
+                                                    id='body'
+                                                    value={value}
+                                                    onChange={setValue}
+                                                    placeholder='Post body...'
+                                                />
+                                            </div>
+                                            <div className="group">
+                                                <label htmlFor="description">
+                                                    Meta Description
+                                                </label>
+                                                <textarea
+                                                    name="description"
+                                                    id="description"
+                                                    defaultValue={state.description}
+                                                    onChange={(e) => setState({
+                                                        ...state, description: e.target.value
+                                                    })}
+                                                    onKeyUp={(e) => setState({
+                                                        ...state, description: e.target.value
+                                                    })}
+                                                    cols="30"
+                                                    rows="10"
+                                                    className='group__control'
+                                                    placeholder='meta description...'
+                                                    maxLength='150'
+                                                >
+                                                </textarea>
+                                                <p className="length">
+                                                    {
+                                                        state.description ? state.description.length : 0
+                                                    }
+                                                </p>
+                                            </div>
+                                            <div className="group">
+                                                <input
+                                                    type="submit"
+                                                    value="Edit Post"
+                                                    className='btn btn-default btn-block'
+                                                />
+                                            </div>
+                                        </form>
                                     </div>
-                                    <div className="group">
-                                        <label htmlFor="body">Post body</label>
-                                        <ReactQuill
-                                            theme="snow"
-                                            id='body'
-                                            value={value}
-                                            onChange={setValue}
-                                            placeholder='Post body...'
-                                        />
-                                    </div>
-                                    <div className="group">
-                                        <label htmlFor="description">
-                                            Meta Description
-                                        </label>
-                                        <textarea
-                                            name="description"
-                                            id="description"
-                                            defaultValue={state.description}
-                                            onChange={(e) => setState({
-                                                ...state, description: e.target.value
-                                            })}
-                                            onKeyUp={(e) => setState({
-                                                ...state, description: e.target.value
-                                            })}
-                                            cols="30"
-                                            rows="10"
-                                            className='group__control'
-                                            placeholder='meta description...'
-                                            maxLength='150'
-                                        >
-                                        </textarea>
-                                        <p className="length">
-                                            {
-                                                state.description ? state.description.length : 0
-                                            }
-                                        </p>
-                                    </div>
-                                    <div className="group">
-                                        <input
-                                            type="submit"
-                                            value="Edit Post"
-                                            className='btn btn-default btn-block'
-                                        />
-                                    </div>
-                                </form>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                ) : (
+                    <Loader />
+                )
+            }
         </>
     );
 };

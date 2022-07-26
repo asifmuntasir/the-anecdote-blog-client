@@ -68,7 +68,8 @@ const UserDashboard = () => {
                                         <Link to='/'>{post.title}</Link>
                                     </div>
                                     <div className="dashboard__post__links">
-                                        <Link to={`/editPost/${post._id}`}><i class="ri-file-edit-fill icon"></i></Link>
+                                        <Link to={`/updateImage/${post._id}`}><i class="ri-image-edit-line icon"></i></Link>
+                                        <Link to={`/editPost/${post._id}`}><i class="ri-file-edit-line icon"></i></Link>
                                         <i class="ri-delete-bin-5-line icon"></i>
                                     </div>
                                 </div>

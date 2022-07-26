@@ -12,7 +12,9 @@ import {
     POST_REQUEST,
     POST_RESET,
     SET_UPDATE_ERRORS,
-    RESET_UPDATE_ERRORS
+    RESET_UPDATE_ERRORS,
+    UPDATE_IMAGE_ERRORS,
+    RESET_UPDATE_IMAGE_ERRORS
 } from '../types/PostTypes.js';
 
 const initState = {
@@ -25,7 +27,8 @@ const initState = {
     count: 0,
     post: {},
     postStatus: false,
-    editErrors: []
+    editErrors: [],
+    updateImageErrors: []
 };
 
 
@@ -93,3 +96,21 @@ export const UpdatePost = (state = initState, action) => {
         return state;
     }
 }
+
+export const UpdateImage = (state = initState, action) => {
+    const { type, payload } = action;
+    if (type === UPDATE_IMAGE_ERRORS) {
+        return {
+            ...state,
+            updateImageErrors: payload
+        }
+    } else if (type === RESET_UPDATE_IMAGE_ERRORS) {
+        return {
+            ...state,
+            updateImageErrors: []
+        }
+    } else {
+        return state;
+    }
+}
+
