@@ -43,7 +43,7 @@ const Pagination = ({ count, page, perPage }) => {
         }
     }
 
-    return totalPages ? (
+    return totalPages && count > 4 ? (
         <div className="pagination">
             {previous()}
             {links()}

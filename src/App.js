@@ -18,6 +18,7 @@ import NotFound from "./components/NotFound";
 import CreatePost from "./components/CreatePost/CreatePost";
 import EditPost from "./components/EditPost/EditPost";
 import EditImage from "./components/EditPost/EditImage";
+import UpdateUserName from "./components/UpdateUserName/UpdateUserName";
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
           <PrivateRoute path="/createPost" exact component={CreatePost} />
           <PrivateRoute path="/editPost/:id" exact component={EditPost} />
           <PrivateRoute path="/updateImage/:id" exact component={EditImage} />
+          <PrivateRoute path="/updateName" exact component={UpdateUserName} />
           <Route component={NotFound} />
         </Switch>
       </Router>

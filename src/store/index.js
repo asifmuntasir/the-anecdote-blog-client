@@ -8,6 +8,10 @@ import {
     UpdatePost,
     UpdateImage
 } from "./reducers/PostReducer";
+
+import {
+    updateName
+} from "./reducers/ProfileReducer";
 import { composeWithDevTools } from 'redux-devtools-extension';
 import 'remixicon/fonts/remixicon.css'
 
@@ -19,7 +23,8 @@ const rootReducers = combineReducers({
     FetchPosts,
     FetchPost,
     UpdatePost,
-    UpdateImage
+    UpdateImage,
+    updateName
 });
 
 const middlewares = [thunkMiddleware];

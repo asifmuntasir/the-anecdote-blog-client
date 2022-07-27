@@ -8,7 +8,7 @@ const SideBar = () => {
                 <h2>Settings</h2>
             </div>
             <div className="sidebar__element">
-                <Link>Change Name</Link>
+                <Link to={'/updateName'}>Change Name</Link>
             </div>
             <div className="sidebar__element">
                 <Link>Change Password</Link>

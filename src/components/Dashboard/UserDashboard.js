@@ -2,18 +2,19 @@ import React from 'react';
 import { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { useSelector, useDispatch } from 'react-redux';
-import { REDIRECT_FALSE, REMOVE_MESSAGE } from '../../store/types/PostTypes';
+import { CLOSE_LOADER, REDIRECT_FALSE, REMOVE_MESSAGE, SET_LOADER, SET_MESSAGE } from '../../store/types/PostTypes';
 import toast, { Toaster } from 'react-hot-toast';
 import { fetchPosts } from '../../store/asyncMethods/PostMethod';
 import { Link, useParams } from 'react-router-dom';
 import Loader from '../Loader';
 import SideBar from '../SideBar/SideBar';
 import Pagination from '../Pagination';
+import axios from 'axios';
 
 const UserDashboard = () => {
 
     const { redirect, message, loading } = useSelector((state) => state.PostReducer);
-    const { user: { _id } } = useSelector(state => state.AuthReducer);
+    const { user: { _id }, token } = useSelector(state => state.AuthReducer);
     const { posts, count, perPage } = useSelector(state => state.FetchPosts)
     let { page } = useParams();
 
@@ -24,6 +25,35 @@ const UserDashboard = () => {
     }
 
     const dispatch = useDispatch();
+
+    const deletePost = async (id) => {
+        const confirm = window.confirm('Are you want to delete this post?');
+        if (confirm) {
+            dispatch({
+                type: SET_LOADER
+            });
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            }
+            try {
+                const { data: { msg } } = await axios.get(`http://localhost:4000/delete_post/${id}`, config);
+                dispatch(fetchPosts(_id, page));
+                dispatch({
+                    type: SET_MESSAGE,
+                    payload: msg
+                });
+            } catch (error) {
+                dispatch({
+                    type: CLOSE_LOADER
+                });
+                console.log(error);
+            }
+        }
+    }
+
+
     useEffect(() => {
         if (redirect) {
             dispatch({
@@ -36,8 +66,13 @@ const UserDashboard = () => {
                 type: REMOVE_MESSAGE
             })
         }
+
+    }, [message]);
+
+    useEffect(() => {
         dispatch(fetchPosts(_id, page));
     }, [page])
+
     return (
         <>
             <Helmet>
@@ -70,7 +105,7 @@ const UserDashboard = () => {
                                     <div className="dashboard__post__links">
                                         <Link to={`/updateImage/${post._id}`}><i class="ri-image-edit-line icon"></i></Link>
                                         <Link to={`/editPost/${post._id}`}><i class="ri-file-edit-line icon"></i></Link>
-                                        <i class="ri-delete-bin-5-line icon"></i>
+                                        <i onClick={() => deletePost(post._id)} class="ri-delete-bin-5-line icon"></i>
                                     </div>
                                 </div>
                             )) : 'You dont have any post' : <Loader />}
