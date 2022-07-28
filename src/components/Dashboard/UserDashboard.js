@@ -10,6 +10,7 @@ import Loader from '../Loader';
 import SideBar from '../SideBar/SideBar';
 import Pagination from '../Pagination';
 import axios from 'axios';
+import moment from 'moment';
 
 const UserDashboard = () => {
 
@@ -101,6 +102,7 @@ const UserDashboard = () => {
                                 <div className="dashboard__post" key={post._id}>
                                     <div className="dashboard__post__title">
                                         <Link to='/'>{post.title}</Link>
+                                        <span>Published {moment(post.updatedAt).fromNow()}</span>
                                     </div>
                                     <div className="dashboard__post__links">
                                         <Link to={`/updateImage/${post._id}`}><i class="ri-image-edit-line icon"></i></Link>

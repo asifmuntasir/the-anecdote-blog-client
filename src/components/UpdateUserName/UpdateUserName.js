@@ -84,9 +84,9 @@ const UpdateUserName = () => {
                                     type='text'
                                     name=''
                                     className='group__control'
-                                    placeholder='Name...'
+                                    placeholder={userName}
                                     onChange={(e) => setUserName(e.target.value)}
-                                    value={userName}
+                                // value={userName}
                                 />
                             </div>
                             <div className="group">
