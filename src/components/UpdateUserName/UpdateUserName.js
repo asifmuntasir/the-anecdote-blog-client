@@ -1,19 +1,56 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateNameAction } from '../../store/asyncMethods/ProfileMethod';
 import SideBar from '../SideBar/SideBar';
+import toast, { Toaster } from 'react-hot-toast';
+import { RESET_PROFILE_ERRORS } from '../../store/types/ProfileTypes';
+import { useHistory } from 'react-router-dom';
 
 const UpdateUserName = () => {
 
+    const { push } = useHistory();
+
     const [userName, setUserName] = useState('');
 
-    const { user: { name } } = useSelector(user => user.AuthReducer);
+    const dispatch = useDispatch();
+    const { user: { name, _id } } = useSelector(user => user.AuthReducer);
     // console.log(name);
+
+    const { loading, redirect } = useSelector(state => state.PostReducer);
+
+    const { updateErrors } = useSelector(state => state.updateName)
+
 
     useEffect(() => {
         setUserName(name);
-    })
+    }, [name]);
+
+    const updateUserName = (e) => {
+        e.preventDefault();
+        dispatch(updateNameAction({
+            name: userName,
+            id: _id
+        }))
+    }
+
+
+    useEffect(() => {
+        if (updateErrors.length !== 0) {
+            updateErrors.map(error => toast.error(error.msg));
+        }
+        dispatch({
+            type: RESET_PROFILE_ERRORS
+        });
+
+    }, [updateErrors]);
+
+    useEffect(() => {
+        if (redirect) {
+            push('/userDashboard');
+        }
+    }, [redirect]);
 
     return (
         <>
@@ -25,6 +62,13 @@ const UpdateUserName = () => {
                 />
                 <link rel="shortcut icon" href="./updated.png" />
             </Helmet>
+            <Toaster
+                toastOptions={{
+                    style: {
+                        fontSize: '15px'
+                    },
+                }}
+            />
             <div className="container mt-100">
                 <div className="row ml-minus-15 mr-minus-15">
                     <div className="col-3 p-15">
@@ -34,15 +78,14 @@ const UpdateUserName = () => {
                         <div className="card">
                             <h3 className="card__h3">Update Name</h3>
                         </div>
-                        <form>
+                        <form onSubmit={updateUserName}>
                             <div className="group">
                                 <input
-                                    type="text"
-                                    name=""
-                                    id=""
+                                    type='text'
+                                    name=''
                                     className='group__control'
                                     placeholder='Name...'
-                                    onChange={(e) => { setUserName(e.target.value) }}
+                                    onChange={(e) => setUserName(e.target.value)}
                                     value={userName}
                                 />
                             </div>
