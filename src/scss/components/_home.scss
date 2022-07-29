@@ -1,0 +1,52 @@
+.home {
+    background: $white;
+    border-radius: 5px;
+    border: 1px solid #e5e7e5;
+}
+
+.post-style {
+    border-bottom: 1px solid #e5e7e5;
+    padding: 2rem;
+
+    &:last-child {
+        border-bottom: none;
+    }
+}
+
+.post__card {
+    &__header {
+        display: flex;
+        align-items: center;
+
+        &__avator {
+            width: 5rem;
+            height: 5rem;
+            background: $green;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: $white;
+            font-size: 17px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        &__user {
+            margin-left: 1rem;
+            display: flex;
+            flex-direction: column;
+
+            span:nth-child(1) {
+                font-size: 1.5rem;
+                text-transform: capitalize;
+                font-weight: 400;
+            }
+
+            span:nth-child(2) {
+                font-size: 1.2rem;
+                font-weight: 400;
+            }
+        }
+    }
+}

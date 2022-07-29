@@ -2,8 +2,8 @@
 > This is a Client Side code repository for a MERN Stack Blog project. I'm till working on this repository.
 
 
-# ScreenShots
-![](screenShot.png)
+# Demo
+![](tAnechdot.gif)
 
 ## Built With
 - HTML

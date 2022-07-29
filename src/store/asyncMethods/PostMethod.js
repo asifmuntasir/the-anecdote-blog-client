@@ -88,7 +88,7 @@ export const fetchPosts = (id, page) => {
             dispatch({
                 type: SET_POSTS,
                 payload: { response, count, perPage }
-            })
+            });
         } catch (error) {
             dispatch({
                 type: CLOSE_LOADER
@@ -224,6 +224,32 @@ export const updateImageAction = (updateData) => {
                 payload: errors
             });
             // console.log(error.message);
+        }
+    }
+}
+
+
+// Display all posts
+
+export const homePosts = (page) => {
+    return async (dispatch) => {
+        dispatch({
+            type: SET_LOADER
+        });
+        try {
+            const { data: { response, count, perPage } } = await axios.get(`http://localhost:4000/home/${page}`);
+            dispatch({
+                type: CLOSE_LOADER
+            });
+            dispatch({
+                type: SET_POSTS,
+                payload: { response, count, perPage }
+            });
+        } catch (error) {
+            dispatch({
+                type: CLOSE_LOADER
+            });
+            console.log(error);
         }
     }
 }
