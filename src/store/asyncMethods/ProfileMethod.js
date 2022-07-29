@@ -52,11 +52,52 @@ export const updateNameAction = (user) => {
             dispatch({
                 type: CLOSE_LOADER
             });
-            console.log(error.response.data.errors);
+            console.log(error.response.data);
             dispatch({
                 type: SET_PROFILE_ERRORS,
                 payload: error.response.data.errors
-            })
+            });
+        }
+    }
+}
+
+export const updatePasswordAction = (userData) => {
+    return async (dispatch, getState) => {
+        const {
+            AuthReducer: { token },
+        } = getState();
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        }
+
+        dispatch({
+            type: SET_LOADER
+        });
+
+        try {
+            const { data } = await axios.post(`http://localhost:4000/update_password`, userData, config)
+            dispatch({
+                type: CLOSE_LOADER
+            });
+            dispatch({
+                type: SET_MESSAGE,
+                payload: data.msg
+            });
+            dispatch({
+                type: REDIRECT_TRUE
+            });
+        } catch (error) {
+            dispatch({
+                type: CLOSE_LOADER
+            });
+            console.log(error.response.data);
+            dispatch({
+                type: SET_PROFILE_ERRORS,
+                payload: error.response.data.errors
+            });
         }
     }
 }

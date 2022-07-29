@@ -32,17 +32,16 @@ const UpdateUserName = () => {
         dispatch(updateNameAction({
             name: userName,
             id: _id
-        }))
+        }));
     }
-
 
     useEffect(() => {
         if (updateErrors.length !== 0) {
             updateErrors.map(error => toast.error(error.msg));
+            dispatch({
+                type: RESET_PROFILE_ERRORS
+            });
         }
-        dispatch({
-            type: RESET_PROFILE_ERRORS
-        });
 
     }, [updateErrors]);
 
@@ -50,7 +49,7 @@ const UpdateUserName = () => {
         if (redirect) {
             push('/userDashboard');
         }
-    }, [redirect]);
+    }, [push, redirect]);
 
     return (
         <>
@@ -84,7 +83,7 @@ const UpdateUserName = () => {
                                     type='text'
                                     name=''
                                     className='group__control'
-                                    placeholder={userName}
+                                    placeholder='Enter new name'
                                     onChange={(e) => setUserName(e.target.value)}
                                 // value={userName}
                                 />
