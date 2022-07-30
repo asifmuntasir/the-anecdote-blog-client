@@ -15,6 +15,8 @@ import {
     SET_UPDATE_ERRORS,
     RESET_UPDATE_ERRORS,
     UPDATE_IMAGE_ERRORS,
+    SET_DETAILS,
+    COMMENTS
 } from '../types/PostTypes';
 
 // const token = localStorage.getItem('userToken');
@@ -245,6 +247,67 @@ export const homePosts = (page) => {
                 type: SET_POSTS,
                 payload: { response, count, perPage }
             });
+        } catch (error) {
+            dispatch({
+                type: CLOSE_LOADER
+            });
+            console.log(error);
+        }
+    }
+}
+
+export const postDetails = (id) => {
+    return async (dispatch) => {
+        dispatch({
+            type: SET_LOADER
+        });
+        try {
+            const { data: { post_details, comments } } = await axios.get(`http://localhost:4000/details/${id}`);
+            dispatch({
+                type: CLOSE_LOADER
+            });
+            dispatch({
+                type: SET_DETAILS,
+                payload: post_details
+            });
+            dispatch({
+                type: COMMENTS,
+                payload: comments
+            });
+            // console.log(post_details);
+            // console.log(comments);
+        } catch (error) {
+            dispatch({
+                type: CLOSE_LOADER
+            });
+            console.log(error);
+        }
+    }
+}
+
+
+export const postComment = (commentData) => {
+    return async (dispatch, getState) => {
+        const {
+            AuthReducer: { token },
+        } = getState();
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        }
+
+        dispatch({
+            type: SET_LOADER
+        });
+
+        try {
+            const { data } = await axios.post(`http://localhost:4000/comment`, commentData, config);
+            dispatch({
+                type: CLOSE_LOADER
+            });
+            console.log(data);
         } catch (error) {
             dispatch({
                 type: CLOSE_LOADER

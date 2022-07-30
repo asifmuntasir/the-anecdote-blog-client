@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Pagination = ({ count, page, perPage }) => {
+const Pagination = ({ path, count, page, perPage }) => {
     let totalPages = Math.ceil(count / perPage);
     let startLoop = page;
     let diff = totalPages - page;
@@ -17,7 +17,7 @@ const Pagination = ({ count, page, perPage }) => {
         const store = [];
         for (let i = startLoop; i <= endLoop; i++) {
             store.push(<li key={i} className={i === page ? 'active' : ''}>
-                <Link to={`/userDashboard/${i}`}>{i}</Link>
+                <Link to={`/${path}/${i}`}>{i}</Link>
             </li>)
         }
         return store;
@@ -26,7 +26,7 @@ const Pagination = ({ count, page, perPage }) => {
     const next = () => {
         if (page < totalPages) {
             return (<li>
-                <Link to={`/userDashboard/${parseInt(page) + 1}`}>
+                <Link to={`/${path}/${parseInt(page) + 1}`}>
                     <i class="ri-arrow-right-s-line"></i>
                 </Link>
             </li>)
@@ -36,7 +36,7 @@ const Pagination = ({ count, page, perPage }) => {
     const previous = () => {
         if (page > 1) {
             return (<li>
-                <Link to={`/userDashboard/${parseInt(page) - 1}`}>
+                <Link to={`/${path}/${parseInt(page) - 1}`}>
                     <i class="ri-arrow-left-s-line"></i>
                 </Link>
             </li>)

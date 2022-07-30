@@ -101,7 +101,7 @@ const UserDashboard = () => {
                             {!loading ? posts.length > 0 ? posts.map((post) => (
                                 <div className="dashboard__post" key={post._id}>
                                     <div className="dashboard__post__title">
-                                        <Link to='/'>{post.title}</Link>
+                                        <Link to={`/details/${post.slug}`}>{post.title}</Link>
                                         <span>Published {moment(post.updatedAt).fromNow()}</span>
                                     </div>
                                     <div className="dashboard__post__links">
@@ -111,7 +111,12 @@ const UserDashboard = () => {
                                     </div>
                                 </div>
                             )) : 'You dont have any post' : <Loader />}
-                            <Pagination page={page} perPage={perPage} count={count} />
+                            <Pagination
+                                path="userDashboard"
+                                page={page}
+                                perPage={perPage}
+                                count={count}
+                            />
                         </div>
                     </div>
                 </div>

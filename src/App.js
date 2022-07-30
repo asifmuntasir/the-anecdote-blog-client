@@ -20,6 +20,7 @@ import EditPost from "./components/EditPost/EditPost";
 import EditImage from "./components/EditPost/EditImage";
 import UpdateUserName from "./components/UpdateUserActivity/UpdateUserName";
 import ChangeUserPassword from "./components/UpdateUserActivity/ChangeUserPassword";
+import Details from "./components/PostDetails/Details";
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/home/:page" exact component={Home} />
+          <Route path="/details/:id" exact component={Details} />
           <RouteLinks path="/login" exact component={Login} />
           <RouteLinks path="/register" exact component={Register} />
           <PrivateRoute path="/userDashboard/:page?" exact component={UserDashboard} />
