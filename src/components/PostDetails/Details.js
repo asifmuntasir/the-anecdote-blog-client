@@ -28,10 +28,11 @@ const Details = () => {
             userName: user.name
         }));
         setComment('');
+        dispatch(postDetails(id));
     }
 
     useEffect(() => {
-        dispatch(postDetails(id))
+        dispatch(postDetails(id));
     }, [id])
 
     return (
@@ -51,7 +52,7 @@ const Details = () => {
                             !loading ? <div className="post__details">
                                 <div className="post__card__header">
                                     <div className="post__card__header__avator">
-                                        {details.userName[0]}
+                                        {details.userName ? details.userName[0] : ''}
                                     </div>
                                     <div className="post__card__header__user">
                                         <span>{details.userName}</span>

@@ -262,7 +262,7 @@ export const postDetails = (id) => {
             type: SET_LOADER
         });
         try {
-            const { data: { post_details, comments } } = await axios.get(`http://localhost:4000/details/${id}`);
+            const { data: { post_details, comments } } = await axios.get(`http://localhost:4000/explore/${id}`);
             dispatch({
                 type: CLOSE_LOADER
             });
